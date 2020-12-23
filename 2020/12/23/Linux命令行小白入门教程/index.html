@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta charset="utf-8"><meta lang="zh"><title>Linux命令行小白入门教程 - Dragon&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="臭豆腐的 blog"><meta name="msapplication-TileImage" content="/site-img/wechat.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="臭豆腐的 blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta description="本篇文章的目标读者是 Linux 小白用户，也就是从未接触过 Linux，对于命令行是什么都不了解的新手~ 是相当基础的新手村教程思密达~ 对于 Linux 有一定了解的可以不用往下继续看啦 : )"><meta property="og:type" content="blog"><meta property="og:title" content="Linux命令行小白入门教程"><meta property="og:url" content="https://zhaoshenglong.github.io/2020/12/23/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><meta property="og:site_name" content="Dragon&#039;s blog"><meta property="og:description" content="本篇文章的目标读者是 Linux 小白用户，也就是从未接触过 Linux，对于命令行是什么都不了解的新手~ 是相当基础的新手村教程思密达~ 对于 Linux 有一定了解的可以不用往下继续看啦 : )"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://zhaoshenglong.github.io/covers/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-cover.jpg"><meta property="article:published_time" content="2020-12-23T02:27:44.000Z"><meta property="article:modified_time" content="2020-12-23T04:40:34.500Z"><meta property="article:author" content="Zhao Shenglong"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Tutorial"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/covers/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-cover.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zhaoshenglong.github.io/2020/12/23/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"},"headline":"Dragon's blog","image":["https://zhaoshenglong.github.io/covers/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-cover.jpg"],"datePublished":"2020-12-23T02:27:44.000Z","dateModified":"2020-12-23T04:40:34.500Z","author":{"@type":"Person","name":"Zhao Shenglong"},"description":"本篇文章的目标读者是 Linux 小白用户，也就是从未接触过 Linux，对于命令行是什么都不了解的新手~ 是相当基础的新手村教程思密达~ 对于 Linux 有一定了解的可以不用往下继续看啦 : )"}</script><link rel="canonical" href="https://zhaoshenglong.github.io/2020/12/23/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><link rel="icon" href="/site-img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.2.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/site-img/logo.svg" alt="Dragon&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Follow me" href="https://github.com/zhaoshenglong"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/covers/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-cover.jpg" alt="Linux命令行小白入门教程"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2020-12-23T02:27:44.000Z" title="2020-12-23T02:27:44.000Z">2020-12-23</time>发表</span><span class="level-item"><time dateTime="2020-12-23T04:40:34.500Z" title="2020-12-23T04:40:34.500Z">2020-12-23</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Tutorial/">Tutorial</a><span> / </span><a class="link-muted" href="/categories/Tutorial/Linux/">Linux</a></span><span class="level-item">19 分钟读完 (大约2858个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Linux命令行小白入门教程</h1><div class="content"><p>本篇文章的目标读者是 Linux 小白用户，也就是从未接触过 Linux，对于命令行是什么都不了解的新手~ 是相当基础的新手村教程思密达~ 对于 Linux 有一定了解的可以不用往下继续看啦 : ) </p>
+<a id="more"></a>
+
+<h2 id="什么是命令行？"><a href="#什么是命令行？" class="headerlink" title="什么是命令行？"></a>什么是命令行？</h2><p>命令行，英文名是 <code>command line</code>，你看，翻译过来是不是就是 <code>命令 行</code>，一个字都不错！那么什么是命令行呢？</p>
+<p>你在看一些和黑客有关的电影的时候是不是经常看到这样的场景：电脑屏幕上黑漆漆的，一些不知道是什么东西的文字在屏幕上滚动，比如下面这张图</p>
+<p><img src="%E9%BB%91%E5%AE%A2.jpg" alt="黑客"></p>
+<p>其实，这就是黑客在使用命令行就行一些 hacking 的操作，比如通过一些工具扫描远程主机的端口信息、连接到远程主机、编写一些程序、登录远程主机、获取远程主机的控制权等等（这些我是都不会啦，哈哈哈，我只会一点命令行的皮毛）</p>
+<p>在没有图形界面时，命令行是人们和电脑交互的主要方式，通过输入一些字符，执行一些程序。但是这个对于普通用户十分不用好，图形总是比文字更加生动形象，所以图形界面的出现使得电脑开始普及。但是对于程序员来说，命令行是必须要了解的工具之一哦~ 使用命令行能做很多图形界面做起来不是很方便的事情！</p>
+<h3 id="有哪些命令行呀！"><a href="#有哪些命令行呀！" class="headerlink" title="有哪些命令行呀！"></a>有哪些命令行呀！</h3><ol>
+<li><p>Windows 上的命令行</p>
+<p>Windows 在最初是 DOS 系统，开机之后就进入一个黑黑的界面，用户可以在这个黑黑的界面输入命令，回车执行。比如下面这个图，<code>dir</code> 命令会显示当前位置（C:\）的文件，<code>ver</code> 命令则会显示 DOS 的版本信息。</p>
+<p><img src="Dos.png" alt="Dos"></p>
+<p>这个黑黑的界面看起来是不是有点熟悉，如果不觉得熟悉也没关系，尝试一下下面的操作</p>
+<ol>
+<li><p>按 <code>win + r</code>（windows 键和 r 键一起按），会出现 <code>运行</code> 程序</p>
+<img src="image-20201223111255703.png" alt="运行" style="zoom: 67%;" />
+</li>
+<li><p>在这个 <code>运行</code> 程序中输入 cmd，确定，就会打开 Windows 系统的 命令行界面，打开之后应该是下面这个样子：</p>
+<img src="image-20201223111433653.png" alt="cmd" style="zoom: 50%;" />
+</li>
+<li><p>尝试在这个 cmd 程序中输入 <code>ver</code> ，然后按回车，看看有什么输出。再试一下输入 <code>dir</code> ，然后回车，看看有什么输出！</p>
+<img src="image-20201223111718505.png" alt="输入cmd" style="zoom: 50%;" />
+
+<p><code>ver</code> 输出了 Windows系统 版本信息，dir 列出了 <code>C:\Users\ALIENWARE</code> 下的文件！ 真棒！</p>
+</li>
+</ol>
+</li>
+<li><p>Linux 上的命令行</p>
+<p>在 Linux 上命令行也被称作 <code>terminal</code>， 有英文自然会有中文，所以也会有人叫做 <code>终端</code>，初次之外还有诸如 <code>sh</code>, <code>shell</code> , <code>bash</code>, <code>dash</code>, <code>zsh</code> 等等的称呼，叫法虽然不一样，但是大致上都是相似的。</p>
+<p><code>shell</code> 是 <code>terminal</code> 的一种，而 <code>sh</code>、<code>bash</code>、<code>dash</code>、<code>zsh</code> 则是不同的 <code>shell</code> 。之所以会有这么多不同的 <code>shell</code>，主要是因为 Linux 是完全开源的操作系统，在 Linux 内核上，有许多人添加了不同的软件（桌面、浏览器、下载工具、软件管家等等）形成了不同的发行版系统（比如 Ubuntu、RedHat、CentOS、ArchLinux 等等），在这些不同的发行版 Linux 系统中，也就根据不同的需求制作了不太一样的 <code>shell</code>。不过虽然名字不太一样，大体上还是相似滴。</p>
+<p><strong>以 Ubuntu 18.04 操作系统为例</strong> （不是 18.04 的也没关系）</p>
+<ol>
+<li>使用鼠标右键 <code>Open terminal</code> 打开终端，打开后会出现和下图类似的界面。</li>
+</ol>
+<img src="image-20201223112932909.png" alt="ubuntu terminal" style="zoom: 67%;" />
+
+<ol start="2">
+<li>尝试输入 <code>ls</code> 命令，看看会输出什么！想一想 <code>ls</code> 和 Windows 的 cmd 哪一条命令比较像？ 哈哈哈，你也太棒了！</li>
+</ol>
+</li>
+<li><p>VScode 的命令行</p>
+<p>在 VScode 上的命令行实际上是打开了系统的命令行，不同的是 VScode 的命令行会嵌入 VScode 中，但是效果其实都是一样的哦~</p>
+</li>
+</ol>
+<h3 id="命令行的基本介绍（以ubuntu-bash为例）"><a href="#命令行的基本介绍（以ubuntu-bash为例）" class="headerlink" title="命令行的基本介绍（以ubuntu bash为例）"></a>命令行的基本介绍（以ubuntu bash为例）</h3><ol>
+<li><p>打开命令行之后，你就进入了一个目录中（可以理解成文件夹中）。这就像你打开了文档管理器，比如你打开了 <code>test</code> 文件夹，这个文件夹下面有 <code>dir</code> 文件夹，还有一个 <code>readme.txt</code> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test文件夹下：</span><br><span class="line">├── dir</span><br><span class="line">│   ├── dir.txt</span><br><span class="line">│   └── script.sh</span><br><span class="line">└── readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>在文档管理器中，我现在处于 <code>test</code> 文件夹，我想返回上一级文件夹，就可以通过点击上级文件夹。而如果我想去 <code>dir</code> 文件夹，就可以双击 <code>dir</code> 文件夹。</p>
+<p>而在命令行中，也是可以做到同样的事情的！比如，如果我想返回上一级文件夹，我就可以输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+
+<p>这样，我就会回到上一级文件夹（其实叫做目录更准确一点，但是你不必纠结，windows 里叫做文件夹，而 Linux 里一般叫做目录）。这里 <code>..</code> 的意思其实就是上一级目录。除此以外 <code>.</code> 代表当前目录。输入下面的指令练习一下吧！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以#开头的是注释，在命令行里输入不会有任何效果。</span></span><br><span class="line"><span class="comment"># 当前目录是 test/</span></span><br><span class="line"><span class="built_in">cd</span> .. <span class="comment"># 当前目录是 test的父目录</span></span><br><span class="line"><span class="built_in">cd</span> .  <span class="comment"># 当前目录还是 test 的父目录</span></span><br><span class="line"><span class="built_in">cd</span> <span class="built_in">test</span> <span class="comment"># 当前目录是 test/</span></span><br><span class="line"><span class="built_in">cd</span> dir <span class="comment"># 档期那目录是 test/dir</span></span><br><span class="line"><span class="built_in">cd</span> .. <span class="comment"># 当前目录又变成了test</span></span><br><span class="line"><span class="built_in">cd</span> ../<span class="built_in">test</span>/dir/.. <span class="comment"># 想一想，这条命令执行完之后，当前目录是什么？ 你肯定可以想出来！</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在命令行里执行的指令其实都是一个程序，比如 <code>cd</code> 其实是一个程序，bash在发现你输入的是 <code>cd</code> 后，就会去找这个程序，如果找到了就会执行这个程序，如果没有找到，就会跟你抱怨：“这个程序我没有找到！”，脾气好一点的还会跟你提一些建议，“你是不是输错了”，也有时候会提醒你，“你没有安装这个程序，可以通过以下方式安装该程序。”</p>
+</li>
+</ol>
+<h2 id="命令行基本命令介绍（以-ubuntu-bash-为例）"><a href="#命令行基本命令介绍（以-ubuntu-bash-为例）" class="headerlink" title="命令行基本命令介绍（以 ubuntu bash 为例）"></a>命令行基本命令介绍（以 ubuntu bash 为例）</h2><p>命令行里可以执行很多指令，每个指令都是一个程序，只要 bash 知道这个程序存在，那么你就可以输入这条指令。今天我们先来学习一下几个强大但又不复杂的指令吧！</p>
+<ol>
+<li><p>ls</p>
+<p><code>ls</code> 指令可以列出当前目录下的所有文件。<code>ls</code> 其实是 <code>list</code> 的简称，程序员在起名字的时候都会尽量简单以避免打太多字，哈哈哈。</p>
+<p>这个指令可以在你不知道当前目录下有哪些文件的时候使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test文件夹下：</span><br><span class="line">├── dir</span><br><span class="line">│   ├── dir.txt</span><br><span class="line">│   └── script.sh</span><br><span class="line">└── readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>还是以这个 <code>test</code> 文件夹为例，输入以下命令试一试！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前目录 test</span></span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir  readme.txt</span></span><br><span class="line">ls dir</span><br><span class="line"><span class="comment"># &gt; dir.txt  script.sh</span></span><br><span class="line">ls --<span class="built_in">help</span></span><br><span class="line"><span class="comment"># 输出了 ls 命令的帮助信息</span></span><br><span class="line"><span class="comment"># 哇！ 现在屏幕都是乱七八糟的信息，太烦了，我想清理屏幕！</span></span><br><span class="line">clear <span class="comment"># 这个命令可以将bash的输出全部清除~</span></span><br></pre></td></tr></table></figure>
+
+<p>聪明的你肯定已经发现了，<code>ls</code> 指令后面可以跟着目录，这样会把那个目录的文件信息罗列出来~ </p>
+</li>
+<li><p>cd</p>
+<p><code>cd</code> 命令是 <code>change directory</code> 的简称，可以在命令行里切换目录。cd 的强大你应该已经了解啦，我就不多介绍了~</p>
+</li>
+<li><p>mkdir</p>
+<p><code>mkdir</code> 命令是 <code>make directory</code> 的简称，顾名思义，这个命令时创建目录（文件夹）的。快来使用下面的命令尝试一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test/ 目录下</span></span><br><span class="line">mkdir dir1</span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt</span></span><br><span class="line">ls dir1</span><br><span class="line"><span class="comment"># &gt; empty 没有输出，因为 dir1 是空文件夹</span></span><br><span class="line">mkdir dir1/dir1</span><br><span class="line">ls </span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt</span></span><br><span class="line">ls dir1</span><br><span class="line"><span class="comment"># &gt; dir1 刚刚创建的 dir1/dir1 出现了！</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>touch</p>
+<p><code>touch</code> 命令可以用于创建普通文件（不是目录的文件），touch 命令后面要跟着文件的名称哦~</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test/ 目录下</span></span><br><span class="line">touch test.txt</span><br><span class="line">ls </span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt  test.txt</span></span><br><span class="line">touch <span class="built_in">test</span></span><br><span class="line">ls </span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt  test  test.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>真棒！ 你已经学会如何创建文件、文件夹、查看文件夹里的文件啦！可是刚创建了几个文件，想要删除文件怎么办呢？看看下面的 <code>rm</code> 命令吧！</p>
+</li>
+<li><p>rm</p>
+<p><code>rm</code> 命令时 <code>remove</code> 的简称，顾名思义是删除的意思，可以用来删除指定的文件/目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test 目录下</span></span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt  test  test.txt</span></span><br><span class="line">rm <span class="built_in">test</span> test.txt <span class="comment"># 删除 test、test.txt 文件</span></span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt</span></span><br><span class="line">rm dir1</span><br><span class="line"><span class="comment"># &gt; rm: cannot remove &#x27;dir1/&#x27;: Is a directory</span></span><br><span class="line">ls </span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>咦，奇怪，我想要删除 <code>dir1</code> 文件夹，可是 bash 说了一句 <code>rm: cannot remove &#39;dir1/&#39;: Is a directory</code> 和之前好像不太一样呢，然后 <code>ls</code> 查看 <code>dir1</code> 还是存在啊，怎么回事！</p>
+<p>这是因为，<code>rm</code> 一般情况下只能删除普通文件，也就是不是目录的文件。那要怎么删除目录文件呢？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test目录下</span></span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir  dir1  readme.txt</span></span><br><span class="line">rm -r dir1</span><br><span class="line">ls</span><br><span class="line"><span class="comment"># &gt; dir readme.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>啊哈！成功删除了，真棒！<code>rm -r</code> 可以删除指定的目录！学会啦！</p>
+</li>
+</ol>
+<h2 id="命令行后续学习"><a href="#命令行后续学习" class="headerlink" title="命令行后续学习"></a>命令行后续学习</h2><p>后续的学习就需要勇士自己探索啦，就像打游戏，怎么点技能，怎么加天赋都需要你自己摸索才有意思，不一样的是，打游戏培养的是游戏角色，学习命令行，培养的是勇士自己！</p>
+<ol>
+<li><p>注意命令行的信息，仔细阅读，如果出现了和正确情况不一致的信息，命令行的都会提示你的。比如下面的图</p>
+<img src="image-20201223122042465.png" alt="No such file" style="zoom:67%;" />
+
+<p>bash 告诉我们 <code>cannot access &#39;test&#39;: No such file or directory</code> 这句英文的意思就是无法访问 <code>test</code>，没有这个文件或目录。</p>
+<p>再比如下面这个图，我输入了 <code>brew</code> 命令后，bash 告诉我这些信息。从这些信息中可以看到，bash 找不到这个 <code>brew</code> 命令，同时还告诉我可以通过 <code>sudo apt install linuxbrew-wrapper</code> 来安装 <code>brew</code> ！ bash 真是太贴心了！</p>
+<img src="image-20201223122213274.png" alt="command not found" style="zoom:67%;" />
+
+<p>有的时候，bash 的报错信息我读不懂，怎么办呢？ 当遇到这种情况的时候，就可以将报错信息复制下来，然后去 google/百度上搜索啦！</p>
+<p>总之，命令行的学习需要探索，需要查各种攻略，尝试各种技能搭配，相信一定能学好的！</p>
+</li>
+</ol>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Linux/">Linux</a><a class="link-muted mr-2" rel="tag" href="/tags/Tutorial/">Tutorial</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=5fc9e4be957af60014171a52&amp;product=inline-share-buttons" defer></script></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/12/14/Run-unmodified-c-program-under-the-support-of-graphene-sgx/"><span class="level-item">Run unmodified c++ program under the support of graphene-sgx</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><script src="https://utteranc.es/client.js" repo="zhaoshenglong/zhaoshenglong.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#什么是命令行？"><span class="level-left"><span class="level-item">1</span><span class="level-item">什么是命令行？</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#有哪些命令行呀！"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">有哪些命令行呀！</span></span></a></li><li><a class="level is-mobile" href="#命令行的基本介绍（以ubuntu-bash为例）"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">命令行的基本介绍（以ubuntu bash为例）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#命令行基本命令介绍（以-ubuntu-bash-为例）"><span class="level-left"><span class="level-item">2</span><span class="level-item">命令行基本命令介绍（以 ubuntu bash 为例）</span></span></a></li><li><a class="level is-mobile" href="#命令行后续学习"><span class="level-left"><span class="level-item">3</span><span class="level-item">命令行后续学习</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2020/12/23/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><img src="/covers/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B-cover.jpg" alt="Linux命令行小白入门教程"></a></figure><div class="media-content"><p class="date"><time dateTime="2020-12-23T02:27:44.000Z">2020-12-23</time></p><p class="title"><a href="/2020/12/23/Linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">Linux命令行小白入门教程</a></p><p class="categories"><a href="/categories/Tutorial/">Tutorial</a> / <a href="/categories/Tutorial/Linux/">Linux</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2020/12/14/Run-unmodified-c-program-under-the-support-of-graphene-sgx/"><img src="/covers/Run-unmodified-c-program-under-the-support-of-graphene-sgx-thumbnail.jpg" alt="Run unmodified c++ program under the support of graphene-sgx"></a></figure><div class="media-content"><p class="date"><time dateTime="2020-12-14T08:41:36.000Z">2020-12-14</time></p><p class="title"><a href="/2020/12/14/Run-unmodified-c-program-under-the-support-of-graphene-sgx/">Run unmodified c++ program under the support of graphene-sgx</a></p><p class="categories"><a href="/categories/Note/">Note</a> / <a href="/categories/Note/Security/">Security</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2020/12/07/C-1X-quick-sort-using-C-1X-features/"><img src="/covers/default-thumbnail.jpg" alt="C++1X: quick sort using C++1X features"></a></figure><div class="media-content"><p class="date"><time dateTime="2020-12-07T07:14:00.000Z">2020-12-07</time></p><p class="title"><a href="/2020/12/07/C-1X-quick-sort-using-C-1X-features/">C++1X: quick sort using C++1X features</a></p><p class="categories"><a href="/categories/Programming-Language/">Programming Language</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2020/12/06/Paper-Reading-Cooperation-and-Security-Isolation-of-Library-OSes-for-Multi-Process-Applications/"><img src="/covers/Paper-Reading-Cooperation-and-Security-Isolation-of-Library-OSes-for-Multi-Process-Applications-thumbnail.jpg" alt="Paper Reading: Cooperation and Security Isolation of Library OSes for Multi-Process Applications"></a></figure><div class="media-content"><p class="date"><time dateTime="2020-12-06T03:27:42.000Z">2020-12-06</time></p><p class="title"><a href="/2020/12/06/Paper-Reading-Cooperation-and-Security-Isolation-of-Library-OSes-for-Multi-Process-Applications/">Paper Reading: Cooperation and Security Isolation of Library OSes for Multi-Process Applications</a></p><p class="categories"><a href="/categories/Paper-Reading/">Paper Reading</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2020/12/05/%E6%97%A5%E8%AE%B0-%E8%AE%B0%E4%B8%80%E4%B8%AA%E4%B8%8D%E6%98%AF%E5%BE%88%E5%BC%80%E5%BF%83%E7%9A%84%E5%91%A8%E5%85%AD/"><img src="/covers/%E6%97%A5%E8%AE%B0-%E8%AE%B0%E4%B8%80%E4%B8%AA%E4%B8%8D%E6%98%AF%E5%BE%88%E5%BC%80%E5%BF%83%E7%9A%84%E5%91%A8%E6%9C%AB-thumbnail.jpg" alt="日记:记一个不是很开心的周六"></a></figure><div class="media-content"><p class="date"><time dateTime="2020-12-05T13:01:14.000Z">2020-12-05</time></p><p class="title"><a href="/2020/12/05/%E6%97%A5%E8%AE%B0-%E8%AE%B0%E4%B8%80%E4%B8%AA%E4%B8%8D%E6%98%AF%E5%BE%88%E5%BC%80%E5%BF%83%E7%9A%84%E5%91%A8%E5%85%AD/">日记:记一个不是很开心的周六</a></p><p class="categories"><a href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/site-img/logo.svg" alt="Dragon&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2020 Zhao Shenglong</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" async></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
