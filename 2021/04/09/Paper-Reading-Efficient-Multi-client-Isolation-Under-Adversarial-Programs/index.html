@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta charset="utf-8"><meta lang="zh"><title>Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs - Dragon&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="臭豆腐的 blog"><meta name="msapplication-TileImage" content="/site-img/wechat.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="臭豆腐的 blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta description="本篇论文是 Purdue university 和首尔国立大学合作研究的成果。论文主要针对了 multi-client 的云服务场景，提出了一种基于 SFI（Software Fault Isolation）的 in-enclave 的线程隔离机制，并进行了详尽的测试和对比分析。论文显示，在 micro-benchmark 下，作者们提出来的这个框架比多进程沙盒隔离机制性能优越 4.06 − 53"><meta property="og:type" content="blog"><meta property="og:title" content="Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs"><meta property="og:url" content="https://zhaoshenglong.github.io/2021/04/09/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs/"><meta property="og:site_name" content="Dragon&#039;s blog"><meta property="og:description" content="本篇论文是 Purdue university 和首尔国立大学合作研究的成果。论文主要针对了 multi-client 的云服务场景，提出了一种基于 SFI（Software Fault Isolation）的 in-enclave 的线程隔离机制，并进行了详尽的测试和对比分析。论文显示，在 micro-benchmark 下，作者们提出来的这个框架比多进程沙盒隔离机制性能优越 4.06 − 53"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://zhaoshenglong.github.io/covers/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs-cover.jpg"><meta property="article:published_time" content="2021-04-09T06:20:45.000Z"><meta property="article:modified_time" content="2021-04-09T07:09:16.978Z"><meta property="article:author" content="Zhao Shenglong"><meta property="article:tag" content="SGX"><meta property="article:tag" content="Security"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/covers/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs-cover.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://zhaoshenglong.github.io/2021/04/09/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs/"},"headline":"Dragon's blog","image":["https://zhaoshenglong.github.io/covers/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs-cover.jpg"],"datePublished":"2021-04-09T06:20:45.000Z","dateModified":"2021-04-09T07:09:16.978Z","author":{"@type":"Person","name":"Zhao Shenglong"},"description":"本篇论文是 Purdue university 和首尔国立大学合作研究的成果。论文主要针对了 multi-client 的云服务场景，提出了一种基于 SFI（Software Fault Isolation）的 in-enclave 的线程隔离机制，并进行了详尽的测试和对比分析。论文显示，在 micro-benchmark 下，作者们提出来的这个框架比多进程沙盒隔离机制性能优越 4.06 − 53"}</script><link rel="canonical" href="https://zhaoshenglong.github.io/2021/04/09/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs/"><link rel="icon" href="/site-img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.2.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/site-img/logo.svg" alt="Dragon&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Follow me" href="https://github.com/zhaoshenglong"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/covers/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs-cover.jpg" alt="Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-04-09T06:20:45.000Z" title="2021-04-09T06:20:45.000Z">2021-04-09</time>发表</span><span class="level-item"><time dateTime="2021-04-09T07:09:16.978Z" title="2021-04-09T07:09:16.978Z">2021-04-09</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Paper-Reading/">Paper Reading</a></span><span class="level-item">17 分钟读完 (大约2485个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs</h1><div class="content"><p>本篇论文是 Purdue university 和首尔国立大学合作研究的成果。论文主要针对了 multi-client 的云服务场景，提出了一种基于 SFI（Software Fault Isolation）的 in-enclave 的线程隔离机制，并进行了详尽的测试和对比分析。论文显示，在 micro-benchmark 下，作者们提出来的这个框架比多进程沙盒隔离机制性能优越 4.06 − 53.70×，而在真实应用场景下，该框架性能优越 0.02 ~ 21.18x。</p>
+<a id="more"></a>
+
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Intel SGX 可以对应用程序和数据提供强有力的保护，enclave 外部很难获取这些数据。但是 enclave 内的程序可能有 bug，甚至有可能是别有用心的人特殊设计来窃取数据的。</p>
+<p>那么现有的一些对这种类型的用户数据保护的工作，比如 Ryoan，VC3，都没有提供在一个 enclave 内的隔离机制，都是多个 process 的隔离，这就带来很大的性能开销（page swaps，data redundancy &amp; transferring）。</p>
+<p>本文作者提出了一种 面向 multi-client 场景的 in-enclave 隔离方案 —— CHANCEL，主要有以下几点特性：</p>
+<ul>
+<li><p>SecureLayer —— CHANCEL 的可信服务</p>
+<p>提供 enclave 内的一些功能（文件系统、内存管理、），以此完全控制 enclave 内程序与外界的通讯，并对通信信道进行加密。</p>
+</li>
+<li><p>可读共享内存区域 —— 这一点对后面的测试很重要</p>
+</li>
+<li><p>MCSFI (Multi-Client Software Fault Isolation)  —— enclave 内部的线程隔离机制</p>
+<p>每个线程服务一个 client，且只可以访问 private 的内存区域和 enclave 内的一个只读共享区域。</p>
+</li>
+</ul>
+<p><strong>目标场景</strong></p>
+<p>CHANCEL 面向的服务场景有 Private information retrieval，比如提供 health-care 建议的服务。这些服务通过用户的查询，结合一个共享的医疗健康数据库推断用户的健康信息等；比如 intrusion detection system，通过比较分析 packet 和预定义的 signature dictionary 来辨别木马等病毒。</p>
+<p><strong>现有工作及其问题</strong></p>
+<p><img src="image-20210406104727585.png" alt="image-20210406104727585"></p>
+<p>Ryoan 保护面有限，没有线程隔离（因为是多进程的隔离，这点也是本文主要比较对象之一，SGX下，多线程性能优于多进程）</p>
+<p>硬件普适性不强，MPX 技术已经不再支持，而 SGX2 还没有落地。</p>
+<p>没有针对 multi-client 场景进行隔离</p>
+<h2 id="Threat-Model"><a href="#Threat-Model" class="headerlink" title="Threat Model"></a>Threat Model</h2><p>CHANCEL 的威胁模型认为，service provider 可能故意窃取用户的数据；cloud provider 或者攻击者可能控制程序，但是程序的功能看起来是正常的。CHANCEL 的目的就是防止一个使用多线程来服务用户的远程程序泄露用户数据。</p>
+<h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><h4 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h4><p><img src="image-20210406140646276.png" alt="image-20210406140646276"></p>
+<p>service provider 使用 CHANCEL 提供的工具进行编译插桩；在云上部署enclave环境并运行 SecureLayer；然后将 service program 上传到云上，SecureLayer 对上传的程序进行反汇编检查，确保符合安全要求；</p>
+<p>当 SecureLayer 收到 client 请求时，会在可用的线程和 client 之间建立一个安全信道（比如通过 Diffie-Hellman 密钥交换）</p>
+<h4 id="MCSFI"><a href="#MCSFI" class="headerlink" title="MCSFI"></a>MCSFI</h4><p><strong>Memory Layout</strong></p>
+<p>MCSFI 的内存分布除了 enclave 本身之外，还包括</p>
+<ol>
+<li>每个线程分配一个专用的私有区域；</li>
+<li>所有线程共享的只读区域（只有在初始化程序的时候是可写的）</li>
+<li>额外的可执行区域（service）</li>
+</ol>
+<p><img src="image-20210406142558814.png" alt="image-20210406142558814"></p>
+<p>SecureLayer 的内存区域包含 attestation 和 validation 的程序和数据，用来正确加载程序；thread i 内存区域是专属于 thread i 的；sgx.code 是目标程序的内存区域；sgx.shared 是所有线程共享的内存区域。</p>
+<p>MCSFI 要求在编译时期就为线程预留好空间，这个和 SGX1 的设计类似（SGX1要求确定最大线程数，只允许静态分配的内存）。</p>
+<p><strong>权限控制</strong></p>
+<ol>
+<li>在加载 service 之前，enclave 内只有硬件权限，即 enclave 内基本上都是可读可写的，所以 SecureLayer 可以在 sgx.code 安装程序</li>
+<li>在安装完 service 之后，sgx.code 区域就没有写权限了，这个是由 MCSFI 保证的，此时可以对 sgx.shared 区域进行初始化</li>
+<li>在初始化完成后，sgx.shared 区域会变成只读的区域，这个主要也是由 MCSFI 保证的</li>
+</ol>
+<p><strong>Compiler instrumentation</strong></p>
+<p>首先，CHANCEL 预留了2个通用寄存器，r14 和 r15。r14 保存着 sgx.code 的基地址；而 r15 在初始化 sgx.shared 区域前，保存着 sgx.shared 的基地址，在初始化完成后保存对应 thread 的私有区域基地址。</p>
+<p>利用这两个寄存器，一条 load 指令就会被改成 一串指令。首先判断 load 的地址是否大于 r14，如果大于，则访问的是 sgx.shared 内的区域；否则访问的是 thread private 的区域。</p>
+<p><img src="image-20210406145829659.png" alt="image-20210406145829659"></p>
+<p>如果访问的是 sgx.shared 区域，就可以直接访问；而如果是访问的 thread private 区域，就会将目标地址和 (1GB - 1) 做一个masking，然后再加上 r15 (thread private 区域基地址) ​ :question: 为什么 line 5. 要将目标地址 &amp; (4GB - 1)</p>
+<p>store 指令的处理类似，但是因为只有 thread private 区域是可读，所以直接和 (1GB - 1) 做一个 masking 即可。</p>
+<p><img src="image-20210406152155254.png" alt="image-20210406152155254"></p>
+<p>显然，如果要对所有的 load/store 指令都做插桩，性能开销会比较大，而其实有很多内存访问都是基于栈的，因此，CHANCEL 将每个线程的 rsp 放在私有区域内。这样访问的时候就不需要进行插桩修改指令。:question: 这里为什么 rsp 是和 (4GB - 1) 做 masking​</p>
+<p><img src="image-20210406154454614.png" alt="image-20210406154454614"></p>
+<p>为了防止程序跳过 instrumentation，CHANCEL 确保所有的跳转目标地址都是 32 bytes 对齐的（通过插入 nop），因此，一个跳转指令会被修改成下面这样：</p>
+<p><img src="image-20210406154912238.png" alt="image-20210406154912238"></p>
+<p><strong>Shared Data Initialization</strong></p>
+<p>CHANCEL 的编译器提供了一个注解属性，可以通过注解 annotate(“sgx.shared”) 来共享一个全局变量。在加载程序的时候，CHANCEL 会将这个全局变量拷贝到 sgx.shared 区域。</p>
+<p>此外，CHANCEL 可以在 sgx.shared 区域为程序提供需要的文件。</p>
+<p><strong>Full Mediation</strong></p>
+<p>CHANCEL 全程参与 client 和 thread 之间的通信，并确保每一个和外界的通信都被加密。此外，CHANCEL 提供了 in-enclave filesystem service 和 dynamic memory allocation。</p>
+<h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p><strong>测试环境</strong></p>
+<ul>
+<li>4核8线程 Intel i7-6700K CPU</li>
+<li>64MB内存，128MB EPC</li>
+</ul>
+<p>分为三个部分的测试：1. 和 multi-process 沙盒机制比较性能，主要和 Ryoan 进行比较；2. 测试 CHANCEL 的性能开销；3. 运行真实的程序，并和 Native 的 SGX 及 multi-process 沙盒 进行比较</p>
+<h3 id="Compared-to-multi-process-sandbox"><a href="#Compared-to-multi-process-sandbox" class="headerlink" title="Compared to multi-process sandbox"></a>Compared to multi-process sandbox</h3><p>由于 Ryoan 使用了 SGX2 的硬件技术并且采用的是 QEMU 模拟的系统，所以作者采用的 multi-process sandbox 是 CHANCEL-MP —— CHANCEL 的一种变体，利用多进程隔离 clients。（CHANCEL-MP 和 Ryoan的差别就在于隔离机制不同，CHANCEL的 SFI 隔离机制性能优于 Ryoan）</p>
+<p><img src="image-20210406111038432.png" alt="image-20210406111038432"></p>
+<p><img src="image-20210406111048703.png" alt="image-20210406111048703"></p>
+<p><img src="image-20210406111056655.png" alt="image-20210406111056655"></p>
+<p><strong>测试过程</strong> —— 分配 $m$ MB 内存，$n$ 个线程连续访问其中的 512 KB区域的 8 字节 $k$ 次 </p>
+<p><strong>测试结果</strong> —— CHANCEL 比 CHANCEL-MP 性能优越 4.06x ~ 53.70x</p>
+<h3 id="Overhead-of-CHANCEL"><a href="#Overhead-of-CHANCEL" class="headerlink" title="Overhead of CHANCEL"></a>Overhead of CHANCEL</h3><p>使用 nbench 在普通环境（non-enclave）进行测试，这样可以避免 EPC 换页导致的额外开销，从而测试 CHANCEL 的真实开销</p>
+<p><img src="image-20210406112758548.png" alt="image-20210406112758548"></p>
+<p><strong>测试结果</strong> —— 性能开销大概在 0.91% ~ 24.89%，平均大概为 12.43%</p>
+<p><strong>测试分析</strong></p>
+<ul>
+<li>对于 memory-intensice 的程序来说，性能开销会比较大，比如 NUMERIC SORT，STRING SORT；对于 cpu-intensice 的程序来说，性能开销比较小，比如 IDEA</li>
+<li>data access 是性能开销的关键原因<ul>
+<li>保留了 r14, 415，所以寄存器分配时，spill 会增加</li>
+<li>instrumentation 带来了额外的指令</li>
+</ul>
+</li>
+</ul>
+<h3 id="Real-world-Programs"><a href="#Real-world-Programs" class="headerlink" title="Real-world Programs"></a>Real-world Programs</h3><p>针对真实程序的测试分别使用 4 线程 和 8线程，共享内存大小分为 18MB，36MB，72MB（light workloads），144MB，288MB，576MB（heavy workloads）。</p>
+<h4 id="OSSEC"><a href="#OSSEC" class="headerlink" title="OSSEC"></a>OSSEC</h4><p><img src="image-20210406161954831.png" alt="image-20210406161954831"></p>
+<p>使用 ClamAV 的病毒库，逐步增加库大小（从18MB 到 576MB），CHANCEL 性能优于 CHANCEL-MP 0.21x~ 7.66x。在 light workloads下，Native 和 CHANCEL 的 Page Faults比较少，因此运行时间和字典大小增加几乎是成比例的，而 heavy workloads 虽然CHANCEL 性能影响也很大， 但是相比于 CHANCEL-MP，随着内存的增加，性能优越性更好。</p>
+<h4 id="DrugBank"><a href="#DrugBank" class="headerlink" title="DrugBank"></a>DrugBank</h4><p><img src="image-20210406164008663.png" alt="image-20210406164008663"></p>
+<p>在 light workload 下，CHANCEl 的性能优越性不是很明显，主要是因为 在 light workload 下，每次 hashing 取得的 working set 比较小，所以 page swap 不是很大。相应的，在 heavy workload 下，CHANCEL 性能明显优于 CHANCEL-MP。</p>
+<h4 id="Recommender"><a href="#Recommender" class="headerlink" title="Recommender"></a>Recommender</h4><p><img src="image-20210406164550756.png" alt="image-20210406164550756"></p>
+<p>recommender 的情况和 OSSEC 类似，在 light workload 下，Native 和 CHANCEL 的完成时间随着共享内存的增加而增加，这是由于，recommender 的工作集取决于 catalog 大小（共享内存）</p>
+<h4 id="ShieldStore"><a href="#ShieldStore" class="headerlink" title="ShieldStore"></a>ShieldStore</h4><p><img src="image-20210406164755752.png" alt="image-20210406164755752"></p>
+<p>测试的结果和 OSSEC 及 Recommender 类似</p>
+<h4 id="Snort"><a href="#Snort" class="headerlink" title="Snort"></a>Snort</h4><p><img src="image-20210406165102525.png" alt="image-20210406165102525"></p>
+<p>测试结果和 DrugBank 类似，在 light workload 下性能优越性不明显（由于 working set 比较小），而在 heavy workload 下性能优越性明显增强。</p>
+<h4 id="测试总结"><a href="#测试总结" class="headerlink" title="测试总结"></a>测试总结</h4><p>CHANCEL 性能比 CHANCEL-MP 优越 0.02x ~ 21.18x，相比于 Native，仅仅导致了 0.2~ 13.1% 的性能开销。</p>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/SGX/">SGX</a><a class="link-muted mr-2" rel="tag" href="/tags/Security/">Security</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=5fc9e4be957af60014171a52&amp;product=inline-share-buttons" defer></script></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/03/06/C-Primer-Classes/"><span class="level-item">C++ Primer: Classes</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><script src="https://utteranc.es/client.js" repo="zhaoshenglong/zhaoshenglong.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Introduction"><span class="level-left"><span class="level-item">1</span><span class="level-item">Introduction</span></span></a></li><li><a class="level is-mobile" href="#Threat-Model"><span class="level-left"><span class="level-item">2</span><span class="level-item">Threat Model</span></span></a></li><li><a class="level is-mobile" href="#Design"><span class="level-left"><span class="level-item">3</span><span class="level-item">Design</span></span></a><ul class="menu-list"><ul class="menu-list"><li><a class="level is-mobile" href="#Overview"><span class="level-left"><span class="level-item">3.1.1</span><span class="level-item">Overview</span></span></a></li><li><a class="level is-mobile" href="#MCSFI"><span class="level-left"><span class="level-item">3.1.2</span><span class="level-item">MCSFI</span></span></a></li></ul></ul></li><li><a class="level is-mobile" href="#Evaluation"><span class="level-left"><span class="level-item">4</span><span class="level-item">Evaluation</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Compared-to-multi-process-sandbox"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">Compared to multi-process sandbox</span></span></a></li><li><a class="level is-mobile" href="#Overhead-of-CHANCEL"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">Overhead of CHANCEL</span></span></a></li><li><a class="level is-mobile" href="#Real-world-Programs"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">Real-world Programs</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#OSSEC"><span class="level-left"><span class="level-item">4.3.1</span><span class="level-item">OSSEC</span></span></a></li><li><a class="level is-mobile" href="#DrugBank"><span class="level-left"><span class="level-item">4.3.2</span><span class="level-item">DrugBank</span></span></a></li><li><a class="level is-mobile" href="#Recommender"><span class="level-left"><span class="level-item">4.3.3</span><span class="level-item">Recommender</span></span></a></li><li><a class="level is-mobile" href="#ShieldStore"><span class="level-left"><span class="level-item">4.3.4</span><span class="level-item">ShieldStore</span></span></a></li><li><a class="level is-mobile" href="#Snort"><span class="level-left"><span class="level-item">4.3.5</span><span class="level-item">Snort</span></span></a></li><li><a class="level is-mobile" href="#测试总结"><span class="level-left"><span class="level-item">4.3.6</span><span class="level-item">测试总结</span></span></a></li></ul></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2021/04/09/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs/"><img src="/covers/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs-cover.jpg" alt="Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs"></a></figure><div class="media-content"><p class="date"><time dateTime="2021-04-09T06:20:45.000Z">2021-04-09</time></p><p class="title"><a href="/2021/04/09/Paper-Reading-Efficient-Multi-client-Isolation-Under-Adversarial-Programs/">Paper Reading: Efficient Multi-client Isolation Under Adversarial Programs</a></p><p class="categories"><a href="/categories/Paper-Reading/">Paper Reading</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2021/03/06/C-Primer-Classes/"><img src="/covers/C-Primer-Classes-thumbnail.jpg" alt="C++ Primer: Classes"></a></figure><div class="media-content"><p class="date"><time dateTime="2021-03-06T01:01:37.000Z">2021-03-06</time></p><p class="title"><a href="/2021/03/06/C-Primer-Classes/">C++ Primer: Classes</a></p><p class="categories"><a href="/categories/Reading/">Reading</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2021/02/28/Paper-Reading-A-Security-Architecture-with-CUstimizable-and-Resilient-Enclaves/"><img src="/covers/Paper-Reading-A-Security-Architecture-with-CUstimizable-and-Resilient-Enclaves-thumbnail.jpg" alt="Paper Reading: A Security Architecture with CUstimizable and Resilient Enclaves"></a></figure><div class="media-content"><p class="date"><time dateTime="2021-02-28T02:16:21.000Z">2021-02-28</time></p><p class="title"><a href="/2021/02/28/Paper-Reading-A-Security-Architecture-with-CUstimizable-and-Resilient-Enclaves/">Paper Reading: A Security Architecture with CUstimizable and Resilient Enclaves</a></p><p class="categories"><a href="/categories/Paper-Reading/">Paper Reading</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2021/02/27/C-Primer-Functions/"><img src="/covers/C-Primer-Functions-thumbnail.jpg" alt="C++ Primer: Functions"></a></figure><div class="media-content"><p class="date"><time dateTime="2021-02-27T11:18:26.000Z">2021-02-27</time></p><p class="title"><a href="/2021/02/27/C-Primer-Functions/">C++ Primer: Functions</a></p><p class="categories"><a href="/categories/Reading/">Reading</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2021/01/25/Linear-Algebra-1-%C2%96Determinant/"><img src="/covers/deafault-cover.jpg" alt="Linear Algebra 1: Determinant"></a></figure><div class="media-content"><p class="date"><time dateTime="2021-01-25T07:20:07.000Z">2021-01-25</time></p><p class="title"><a href="/2021/01/25/Linear-Algebra-1-%C2%96Determinant/">Linear Algebra 1: Determinant</a></p><p class="categories"><a href="/categories/Math/">Math</a> / <a href="/categories/Math/Linear-Algebra/">Linear Algebra</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2021/04/"><span class="level-start"><span class="level-item">四月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/03/"><span class="level-start"><span class="level-item">三月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/02/"><span class="level-start"><span class="level-item">二月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/12/"><span class="level-start"><span class="level-item">十二月 2020</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/07/"><span class="level-start"><span class="level-item">七月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/site-img/logo.svg" alt="Dragon&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2021 Zhao Shenglong</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" async></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
